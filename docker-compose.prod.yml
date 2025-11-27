@@ -1,0 +1,38 @@
+version: '3.1'
+
+services:
+  app:
+    image: ghcr.io/petrgru/flask-os:latest
+    ports:
+      - 8000:8000
+    depends_on:
+      - db
+    environment:
+      SQLALCHEMY_DATABASE_URI: 'mysql+pymysql://root:example@db/flask'
+    restart: unless-stopped
+
+  db:
+    image: mariadb:latest
+    restart: unless-stopped
+    environment:
+      MARIADB_ROOT_PASSWORD: example
+      MARIADB_DATABASE: flask
+    volumes:
+      - db_data:/var/lib/mysql
+
+  nginx:
+    image: ghcr.io/petrgru/flask-os-nginx:latest
+    ports:
+      - 8888:80
+    depends_on:
+      - app
+    restart: unless-stopped
+
+  adminer:
+    image: adminer:latest
+    restart: unless-stopped
+    ports:
+      - 5000:8080
+
+volumes:
+  db_data:

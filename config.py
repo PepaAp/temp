@@ -64,13 +64,14 @@ AUTH_TYPE = AUTH_DB
 # AUTH_LDAP_SERVER = "ldap://dc.domain.net"
 AUTH_ROLE_ADMIN = "Admin"
 AUTH_ROLE_PUBLIC = "Public"
-APP_NAME = "F.A.B. Example"
-APP_THEME = ""  # default
+APP_NAME = "Pepa's Inventory System"
+APP_THEME = "flatly.css"  # Moderní a čistý vzhled
+
+# Další dostupné motivy:
 # APP_THEME = "cerulean.css"      # COOL
 # APP_THEME = "amelia.css"
 # APP_THEME = "cosmo.css"
 # APP_THEME = "cyborg.css"       # COOL
-# APP_THEME = "flatly.css"
 # APP_THEME = "journal.css"
 # APP_THEME = "readable.css"
 # APP_THEME = "simplex.css"

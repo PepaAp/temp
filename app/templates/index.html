@@ -1,0 +1,97 @@
+{% extends "appbuilder/base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="jumbotron" style="margin-top: 50px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 15px;">
+        <h1 class="display-4">🎯 Vítejte v mém inventárním systému!</h1>
+        <p class="lead">Moderní aplikace pro správu výrobků a skladů</p>
+        <hr class="my-4" style="border-color: rgba(255,255,255,0.3);">
+        <p>Systém vytvořený pro efektivní správu inventáře a skladového hospodářství.</p>
+    </div>
+
+    <div class="row" style="margin-top: 40px;">
+        <div class="col-md-4">
+            <div class="card text-center shadow-sm" style="border-radius: 10px; border: none;">
+                <div class="card-body" style="padding: 30px;">
+                    <i class="fa fa-cubes fa-4x" style="color: #667eea; margin-bottom: 20px;"></i>
+                    <h4 class="card-title">Výrobky</h4>
+                    <p class="card-text">Spravujte všechny výrobky, jejich názvy a sériová čísla na jednom místě.</p>
+                    <a href="{{ url_for('VyrobekModelView.list') }}" class="btn btn-primary" style="background: #667eea; border: none; border-radius: 20px;">
+                        Zobrazit výrobky
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card text-center shadow-sm" style="border-radius: 10px; border: none;">
+                <div class="card-body" style="padding: 30px;">
+                    <i class="fa fa-building fa-4x" style="color: #764ba2; margin-bottom: 20px;"></i>
+                    <h4 class="card-title">Sklady</h4>
+                    <p class="card-text">Přehled všech skladů, stavů zásob a aktuálních počtů kusů na jednotlivých lokacích.</p>
+                    <a href="{{ url_for('SkladModelView.list') }}" class="btn btn-primary" style="background: #764ba2; border: none; border-radius: 20px;">
+                        Zobrazit sklady
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card text-center shadow-sm" style="border-radius: 10px; border: none;">
+                <div class="card-body" style="padding: 30px;">
+                    <i class="fa fa-chart-line fa-4x" style="color: #f093fb; margin-bottom: 20px;"></i>
+                    <h4 class="card-title">Statistiky</h4>
+                    <p class="card-text">Sledujte statistiky, trendy a přehledy vašeho inventáře v reálném čase.</p>
+                    <a href="#" class="btn btn-primary" style="background: #f093fb; border: none; border-radius: 20px;">
+                        Zobrazit statistiky
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" style="margin-top: 50px; margin-bottom: 50px;">
+        <div class="col-md-12">
+            <div class="card shadow-sm" style="border-radius: 10px; border: none;">
+                <div class="card-body" style="padding: 30px;">
+                    <h3 style="color: #667eea; margin-bottom: 20px;">
+                        <i class="fa fa-info-circle"></i> O systému
+                    </h3>
+                    <p style="font-size: 16px; line-height: 1.8;">
+                        Tento inventární systém byl vytvořen pro profesionální správu výrobků a skladového hospodářství.
+                        Nabízí intuitivní rozhraní, rychlý přístup k datům a komplexní přehled o stavu vašeho inventáře.
+                    </p>
+                    <p style="font-size: 16px; line-height: 1.8;">
+                        <strong>Klíčové funkce:</strong>
+                    </p>
+                    <ul style="font-size: 16px; line-height: 1.8;">
+                        <li>📦 Správa výrobků s unikátními sériovými čísly</li>
+                        <li>🏭 Evidence skladů a jejich stavů</li>
+                        <li>📊 Sledování počtů kusů na skladě</li>
+                        <li>🔍 Rychlé vyhledávání a filtrování</li>
+                        <li>✏️ Snadné přidávání a úpravy záznamů</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.15) !important;
+    }
+    .btn {
+        transition: all 0.3s ease;
+        padding: 10px 30px;
+    }
+    .btn:hover {
+        transform: scale(1.05);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+</style>
+{% endblock %}

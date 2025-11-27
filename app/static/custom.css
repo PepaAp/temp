@@ -1,0 +1,119 @@
+/* Vlastní CSS pro Pepa's Inventory System */
+
+/* Gradient pozadí pro navbar */
+.navbar-inverse {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    border: none !important;
+}
+
+/* Zvýraznění aktivních menu položek */
+.navbar-inverse .navbar-nav > .active > a {
+    background-color: rgba(255, 255, 255, 0.2) !important;
+    border-radius: 5px;
+}
+
+.navbar-inverse .navbar-nav > li > a:hover {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    border-radius: 5px;
+}
+
+/* Styly pro karty v seznamech */
+.panel {
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    border: none;
+}
+
+.panel-heading {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    color: white !important;
+    border-radius: 10px 10px 0 0 !important;
+    padding: 15px 20px;
+}
+
+/* Tlačítka */
+.btn-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+}
+
+.btn-success {
+    background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+    border: none;
+    border-radius: 5px;
+}
+
+.btn-warning {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    border: none;
+    border-radius: 5px;
+}
+
+/* Tabulky */
+.table-striped > tbody > tr:nth-of-type(odd) {
+    background-color: rgba(102, 126, 234, 0.05);
+}
+
+.table > thead > tr > th {
+    background-color: #667eea;
+    color: white;
+    border: none;
+}
+
+/* Formuláře */
+.form-control:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+}
+
+/* Sidebar */
+.sidebar-nav {
+    background-color: #f8f9fa;
+}
+
+.sidebar-nav .nav > li > a:hover {
+    background-color: rgba(102, 126, 234, 0.1);
+    border-left: 3px solid #667eea;
+}
+
+/* Footer */
+.footer {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 20px 0;
+    margin-top: 50px;
+}
+
+/* Animace pro načítání */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.panel, .card {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+/* Responsivní úpravy */
+@media (max-width: 768px) {
+    .jumbotron {
+        padding: 20px;
+    }
+    
+    .card-body {
+        padding: 15px !important;
+    }
+}

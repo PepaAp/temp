@@ -1,5 +1,41 @@
+# Python
 __pycache__
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Virtual Environment
 Flask-AppBuilder
-venv
+venv/
+.venv/
+ENV/
+env/
+
+# Database
 app.db
+*.db
+*.sqlite
+*.sqlite3
+
+# Environment
 .env
+.env.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/

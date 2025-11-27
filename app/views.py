@@ -1,12 +1,21 @@
 import calendar
 
-from flask_appbuilder import ModelView
+from flask_appbuilder import ModelView, IndexView
 from flask_appbuilder.charts.views import GroupByChartView
 from flask_appbuilder.models.group import aggregate_count
 from flask_appbuilder.models.sqla.interface import SQLAInterface
 
 from . import appbuilder, db
 from .models import Contact, ContactGroup, Gender, vyrobek, Sklad
+
+
+class MyIndexView(IndexView):
+    index_template = 'index.html'
+
+
+# Nastavení vlastní úvodní stránky
+appbuilder.indexview = MyIndexView
+
 
 def fill_gender():
     try:
@@ -20,29 +29,63 @@ def fill_gender():
 class VyrobekModelView(ModelView):
     datamodel = SQLAInterface(vyrobek)
     list_columns = ["nazev", "serial_number"]
+    label_columns = {"nazev": "Název produktu", "serial_number": "Sériové číslo"}
+    description_columns = {
+        "nazev": "Název výrobku v inventáři",
+        "serial_number": "Unikátní sériové číslo produktu"
+    }
+    show_template = "appbuilder/general/model/show_cascade.html"
+    edit_template = "appbuilder/general/model/edit_cascade.html"
 
 class SkladModelView(ModelView):
     datamodel = SQLAInterface(Sklad)
     list_columns = ["nazev", "datum", "ks", "stav"]
+    label_columns = {
+        "nazev": "Název skladu", 
+        "datum": "Datum", 
+        "ks": "Počet kusů", 
+        "stav": "Stav"
+    }
+    description_columns = {
+        "nazev": "Název skladu nebo lokace",
+        "datum": "Datum poslední aktualizace",
+        "ks": "Aktuální počet kusů na skladě",
+        "stav": "Současný stav skladu"
+    }
+    show_template = "appbuilder/general/model/show_cascade.html"
+    edit_template = "appbuilder/general/model/edit_cascade.html"
+    base_order = ("datum", "desc")
 
 appbuilder.add_view(
-    VyrobekModelView, "List Vyrobky", icon="fa-folder-open-o", category="Vyrobky"
+    VyrobekModelView, "Seznam výrobků", icon="fa-cube", category="📦 Výrobky",
+    category_icon="fa-cubes"
 )
 
 appbuilder.add_view(
-    SkladModelView, "List Sklady", icon="fa-folder-open-o", category="Sklady"
+    SkladModelView, "Seznam skladů", icon="fa-warehouse", category="🏭 Sklady",
+    category_icon="fa-building"
 )    
 
 class ContactModelView(ModelView):
     datamodel = SQLAInterface(Contact)
 
     list_columns = ["name", "personal_celphone", "birthday", "contact_group.name"]
+    
+    label_columns = {
+        "name": "Jméno",
+        "personal_celphone": "Mobilní telefon",
+        "birthday": "Datum narození",
+        "contact_group": "Skupina",
+        "gender": "Pohlaví",
+        "address": "Adresa",
+        "personal_phone": "Telefon"
+    }
 
     base_order = ("name", "asc")
     show_fieldsets = [
-        ("Summary", {"fields": ["name", "gender", "contact_group"]}),
+        ("Shrnutí", {"fields": ["name", "gender", "contact_group"]}),
         (
-            "Personal Info",
+            "Osobní informace",
             {
                 "fields": [
                     "address",
@@ -56,9 +99,9 @@ class ContactModelView(ModelView):
     ]
 
     add_fieldsets = [
-        ("Summary", {"fields": ["name", "gender", "contact_group"]}),
+        ("Shrnutí", {"fields": ["name", "gender", "contact_group"]}),
         (
-            "Personal Info",
+            "Osobní informace",
             {
                 "fields": [
                     "address",
@@ -72,9 +115,9 @@ class ContactModelView(ModelView):
     ]
 
     edit_fieldsets = [
-        ("Summary", {"fields": ["name", "gender", "contact_group"]}),
+        ("Shrnutí", {"fields": ["name", "gender", "contact_group"]}),
         (
-            "Personal Info",
+            "Osobní informace",
             {
                 "fields": [
                     "address",
@@ -91,6 +134,7 @@ class ContactModelView(ModelView):
 class GroupModelView(ModelView):
     datamodel = SQLAInterface(ContactGroup)
     related_views = [ContactModelView]
+    label_columns = {"name": "Název skupiny"}
 
 
 def pretty_month_year(value):
@@ -104,7 +148,7 @@ def pretty_year(value):
 class ContactTimeChartView(GroupByChartView):
     datamodel = SQLAInterface(Contact)
 
-    chart_title = "Grouped Birth contacts"
+    chart_title = "Statistika narozenin kontaktů"
     chart_type = "AreaChart"
     label_columns = ContactModelView.label_columns
     definitions = [
@@ -125,18 +169,18 @@ db.create_all()
 fill_gender()
 appbuilder.add_view(
     GroupModelView,
-    "List Groups",
-    icon="fa-folder-open-o",
-    category="Contacts",
-    category_icon="fa-envelope",
+    "Seznam skupin",
+    icon="fa-users",
+    category="👥 Kontakty",
+    category_icon="fa-address-book",
 )
 appbuilder.add_view(
-    ContactModelView, "List Contacts", icon="fa-envelope", category="Contacts"
+    ContactModelView, "Seznam kontaktů", icon="fa-user", category="👥 Kontakty"
 )
-appbuilder.add_separator("Contacts")
+appbuilder.add_separator("👥 Kontakty")
 appbuilder.add_view(
     ContactTimeChartView,
-    "Contacts Birth Chart",
-    icon="fa-dashboard",
-    category="Contacts",
+    "Graf narozenin",
+    icon="fa-chart-bar",
+    category="👥 Kontakty",
 )
