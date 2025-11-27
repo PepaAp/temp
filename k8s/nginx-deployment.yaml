@@ -1,0 +1,97 @@
+# Nginx reverse proxy deployment
+# Port: 80 (externí)
+# Proxy požadavky na Flask aplikaci
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx
+  namespace: flask-app
+  labels:
+    app: inventory-system
+    component: frontend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: inventory-system
+      component: frontend
+  template:
+    metadata:
+      labels:
+        app: inventory-system
+        component: frontend
+    spec:
+      containers:
+      - name: nginx
+        image: ghcr.io/pepaap/temp-nginx:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80
+          name: http
+          protocol: TCP
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+          limits:
+            memory: "256Mi"
+            cpu: "200m"
+        volumeMounts:
+        - name: nginx-config
+          mountPath: /etc/nginx/conf.d/app.conf
+          subPath: app.conf
+      volumes:
+      - name: nginx-config
+        configMap:
+          name: nginx-config
+          optional: true
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-service
+  namespace: flask-app
+  labels:
+    app: inventory-system
+    component: frontend
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+    targetPort: 80
+    protocol: TCP
+    name: http
+  selector:
+    app: inventory-system
+    component: frontend
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-config
+  namespace: flask-app
+data:
+  app.conf: |
+    upstream app_server {
+        server flask-service:8000;
+    }
+
+    server {
+        listen 80;
+        client_max_body_size 4G;
+        
+        location / {
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+            proxy_set_header Host $http_host;
+            proxy_redirect off;
+            proxy_pass http://app_server;
+        }
+
+        location /static {
+            alias /home/app/web/staticfiles;
+        }
+    }
